@@ -177,7 +177,7 @@ namespace MathAPI.Controllers
             }
             else
             {
-                return NotFound(new Error("No history found!"));
+                return NotFound(new Error("No history to delete!"));
             }
         }
         

@@ -41,23 +41,22 @@ namespace MathAPI.Controllers
         [ProducesResponseType(typeof(MathCalculation), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Error),StatusCodes.Status400BadRequest)]
         [Produces("application/json")]
-        public async Task<IActionResult> PostCalculate(decimal? FirstNumber, decimal? SecondNumber, int Operation, string Token)
+        public async Task<IActionResult> PostCalculate(MathCalculation mathCalculation)
         {
-            if (Token == null)
+            if (mathCalculation.FirebaseUuid == null)
             {
                 return BadRequest(new Error("Token missing!"));
             }
 
-            if (FirstNumber == null || SecondNumber == null || Operation == 0) {
+            if (mathCalculation.FirstNumber == null || mathCalculation.SecondNumber == null || mathCalculation.Operation == 0) {
                 return BadRequest(new Error("Math equation not complete!"));
             }
 
             decimal? Result = 0;
-            MathCalculation mathCalculation;
 
             try
             {
-                mathCalculation = MathCalculation.Create(FirstNumber, SecondNumber, Operation, Result, Token);
+                mathCalculation = MathCalculation.Create(mathCalculation.FirstNumber, mathCalculation.SecondNumber, mathCalculation.Operation, Result, mathCalculation.FirebaseUuid);
             }
             catch (Exception ex)
             {
@@ -65,19 +64,19 @@ namespace MathAPI.Controllers
             }
 
 
-            switch (Operation)
+            switch (mathCalculation.Operation)
             {
                 case 1:
-                    mathCalculation.Result = FirstNumber + SecondNumber;
+                    mathCalculation.Result = mathCalculation.FirstNumber + mathCalculation.SecondNumber;
                     break;
                 case 2:
-                    mathCalculation.Result = FirstNumber - SecondNumber;
+                    mathCalculation.Result = mathCalculation.FirstNumber - mathCalculation.SecondNumber;
                     break;
                 case 3:
-                    mathCalculation.Result = FirstNumber * SecondNumber;
+                    mathCalculation.Result = mathCalculation.FirstNumber * mathCalculation.SecondNumber;
                     break;
                 default:
-                    mathCalculation.Result = FirstNumber / SecondNumber;
+                    mathCalculation.Result = mathCalculation.FirstNumber / mathCalculation.SecondNumber;
                     break;
             }
 

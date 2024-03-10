@@ -1,4 +1,5 @@
 ﻿using MathAPI.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,16 +37,18 @@ namespace MathAPI.Controllers
         /// </remarks>
         /// <response code="201">Returns the newly created calculation</response>
         /// <response code="400">Returns if a request is missing details or fails</response>
+        /// <response code="401">Returns if a request is missing a token</response>
 
         [HttpPost("PostCalculate")]
         [ProducesResponseType(typeof(MathCalculation), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(Error),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]
         public async Task<IActionResult> PostCalculate(MathCalculation mathCalculation)
         {
             if (mathCalculation.FirebaseUuid == null)
             {
-                return BadRequest(new Error("Token missing!"));
+                return Unauthorized(new Error("Token missing!"));
             }
 
             if (mathCalculation.FirstNumber == null || mathCalculation.SecondNumber == null || mathCalculation.Operation == 0) {
@@ -105,18 +108,20 @@ namespace MathAPI.Controllers
         /// </remarks>
         /// <response code="200">Returns the list of calculations for a user</response>
         /// <response code="400">Returns if a request is missing details or fails</response>
+        /// <response code="401">Returns if a request is missing a token</response>
         /// <response code="404">Returns if no history found</response>
 
         [HttpGet("GetHistory")]
         [ProducesResponseType(typeof(List<MathCalculation>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
         [Produces("application/json")]
         public async Task<IActionResult> GetHistory(string Token)
         {
             if (Token == null)
             {
-                return BadRequest(new Error("Token missing!"));
+                return Unauthorized(new Error("Token missing!"));
             }
 
             List<MathCalculation> historyItems = await _context.MathCalculations.Where(m => m.FirebaseUuid.Equals(Token)).ToListAsync();
@@ -146,18 +151,20 @@ namespace MathAPI.Controllers
         /// </remarks>
         /// <response code="200">Returns the list of calculations deleted for a user</response>
         /// <response code="400">Returns if a request is missing details or fails</response>
+        /// <response code="401">Returns if a request is missing a token</response>
         /// <response code="404">Returns if no history found</response>
         /// 
         [HttpDelete("DeleteHistory")]
         [ProducesResponseType(typeof(List<MathCalculation>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
         [Produces("application/json")]
         public async Task<IActionResult> DeleteHistory(string Token)
         {            
             if (Token == null)
             {
-                return BadRequest(new Error("Token missing!"));
+                return Unauthorized(new Error("Token missing!"));
             }
 
             List<MathCalculation> removableItems = await _context.MathCalculations.Where(m => m.FirebaseUuid.Equals(Token)).ToListAsync();

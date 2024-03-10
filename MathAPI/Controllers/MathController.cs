@@ -22,7 +22,7 @@ namespace MathAPI.Controllers
         /// <param name="FirstNumber">First number of the operation</param>
         /// <param name="SecondNumber">Second number of the operation</param>
         /// <param name="Operation">Operation as an integer: 1 is +, 2 is -, 3 is *, 4 is /</param>
-        /// <param name="Token">Token of the current user.</param>
+        /// <param name="FirebaseUuid">Token of the current user.</param>
         /// <returns>A MathCalculation object with the result</returns>
         /// <remarks>
         /// Sample request:
@@ -32,7 +32,7 @@ namespace MathAPI.Controllers
         ///        "FirstNumber": 5,
         ///        "SecondNumber": 5,
         ///        "Operation": 10,
-        ///        "Token": "{Insert token here}"
+        ///        "FirebaseUuid": "{Insert token here}"
         ///     }
         /// </remarks>
         /// <response code="201">Returns the newly created calculation</response>

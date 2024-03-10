@@ -1,10 +1,11 @@
 ## Building the MathAPI
 
-This repo shows the building of the MathAPI in VS.
+This repo shows the building of the MathAPI in VS. A starting point for this API is the [MathApp](https://github.com/PROG7311-VCDN-2024/MathApp). I recommend building that first so you understand how it all fits together before you break it up :-)
 
-This API covers:
+This API covers aspects like:
 * Reading from a SQL DB using EF Core
 * Serving JSON results from the API
+* Serving different status codes (200, 201, 400, 401, 404, etc.)
 * Swagger documentation
 
 Before commencing, please consult the following API documentation as it gives an idea of what we will be doing:

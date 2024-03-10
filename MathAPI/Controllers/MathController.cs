@@ -16,13 +16,8 @@ namespace MathAPI.Controllers
             _context = context;
         }
 
-        /// <summary>
-        /// Creates and performs a MathCalculation
-        /// </summary>
-        /// <param name="FirstNumber">First number of the operation</param>
-        /// <param name="SecondNumber">Second number of the operation</param>
-        /// <param name="Operation">Operation as an integer: 1 is +, 2 is -, 3 is *, 4 is /</param>
-        /// <param name="FirebaseUuid">Token of the current user.</param>
+        /// <summary>Creates and performs a MathCalculation</summary>
+        /// <param name="mathCalculation">a MathCalculation object for processing</param>
         /// <returns>A MathCalculation object with the result</returns>
         /// <remarks>
         /// Sample request:
@@ -31,8 +26,8 @@ namespace MathAPI.Controllers
         ///     {
         ///        "FirstNumber": 5,
         ///        "SecondNumber": 5,
-        ///        "Operation": 10,
-        ///        "FirebaseUuid": "{Insert token here}"
+        ///        "Operation": 1,
+        ///        "FirebaseUuid": "{insert token here}"
         ///     }
         /// </remarks>
         /// <response code="201">Returns the newly created calculation</response>
@@ -93,9 +88,7 @@ namespace MathAPI.Controllers
         }
 
 
-        /// <summary>
-        /// Gets the MathCalculation history for a user
-        /// </summary>
+        /// <summary>Gets the MathCalculation history for a user</summary>
         /// <param name="Token">Token of the current user.</param>
         /// <returns>A list of MathCalcuation objects</returns>
         /// <remarks>
@@ -153,7 +146,7 @@ namespace MathAPI.Controllers
         /// <response code="400">Returns if a request is missing details or fails</response>
         /// <response code="401">Returns if a request is missing a token</response>
         /// <response code="404">Returns if no history found</response>
-        /// 
+        
         [HttpDelete("DeleteHistory")]
         [ProducesResponseType(typeof(List<MathCalculation>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]

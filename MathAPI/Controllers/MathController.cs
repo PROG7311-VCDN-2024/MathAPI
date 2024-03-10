@@ -1,5 +1,4 @@
 ﻿using MathAPI.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,10 +34,12 @@ namespace MathAPI.Controllers
         /// <response code="401">Returns if a request is missing a token</response>
 
         [HttpPost("PostCalculate")]
+        #region
         [ProducesResponseType(typeof(MathCalculation), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
         [Produces("application/json")]
+        #endregion
         public async Task<IActionResult> PostCalculate(MathCalculation mathCalculation)
         {
             if (mathCalculation.FirebaseUuid == null)
@@ -105,11 +106,13 @@ namespace MathAPI.Controllers
         /// <response code="404">Returns if no history found</response>
 
         [HttpGet("GetHistory")]
+        #region
         [ProducesResponseType(typeof(List<MathCalculation>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
         [Produces("application/json")]
+        #endregion
         public async Task<IActionResult> GetHistory(string Token)
         {
             if (Token == null)
@@ -148,11 +151,13 @@ namespace MathAPI.Controllers
         /// <response code="404">Returns if no history found</response>
         
         [HttpDelete("DeleteHistory")]
+        #region
         [ProducesResponseType(typeof(List<MathCalculation>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
         [Produces("application/json")]
+        #endregion
         public async Task<IActionResult> DeleteHistory(string Token)
         {            
             if (Token == null)

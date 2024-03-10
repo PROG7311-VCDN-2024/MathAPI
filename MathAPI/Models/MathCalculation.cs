@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MathAPI.Models;
+﻿namespace MathAPI.Models;
 
 public partial class MathCalculation
 {
